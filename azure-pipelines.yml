@@ -14,15 +14,24 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
+
 steps:
 - task: NuGetToolInstaller@1
 
+
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
+    command: pack
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
 
-- task: DotNetCoreCLI@2
-  inputs:
+task: DotNetCoreCLI@2
+inputs:
     command: pack
     versioningScheme: byPrereleaseNumber
     majorVersion: '$(Major)'
