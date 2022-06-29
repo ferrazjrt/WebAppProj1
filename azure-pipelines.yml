@@ -6,16 +6,13 @@
 trigger:
 - main
 
-name: $(majorMinorVersion).$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
-
 pool:
   vmImage: 'windows-latest'
 
 variables:
-  major: '1'
-  minor: '0'
-  revision: $[counter(variables['minor'], 1)] # This will get reset every time minor gets bumped.
-  nugetVersion: '$(major).$(minor).$(revision)'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -24,14 +21,13 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-# Build
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj'
-    packDestination: '$(Build.ArtifactStagingDirectory)'
-    versionEnvVar: 'nugetVersion'
-    versioningScheme: 'byEnvVar'
+    command: pack
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
 
 - task: VSBuild@1
   inputs:
