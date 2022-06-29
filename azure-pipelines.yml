@@ -1,3 +1,4 @@
+######################################################################################	YAML ORIGINAL
 # ASP.NET Core (.NET Framework)
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
@@ -14,11 +15,6 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-  major: '1'
-  minor: '0'
-  revision: $[counter(variables['minor'], 1)] # This will get reset every time minor gets bumped.
-  nugetVersion: '$(major).$(minor).$(revision)'
-
 steps:
 - task: NuGetToolInstaller@1
 
@@ -30,15 +26,10 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
-    packDestination: '$(Build.ArtifactStagingDirectory)'
-    versionEnvVar: 'nugetVersion'
-    versioningScheme: 'byEnvVar'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj'
-    versioningScheme: 'byBuildNumber'
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
     toolPackage: true
 
 - task: VSBuild@1
