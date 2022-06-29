@@ -31,16 +31,6 @@ steps:
   inputs:
     projects: '**/*.csproj'
     arguments: '--configuration $(BuildConfiguration)'
-
-# Publish
-- task: DotNetCoreCLI@2
-  displayName: 'Publish'
-  inputs:
-    command: 'push'
-    nuGetFeedType: 'internal'
-    packagesToPush: '$(build.artifactStagingDirectory)/$(ProjectName)*.nupkg'
-    publishVstsFeed: 'MyPackageFeedName'
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
