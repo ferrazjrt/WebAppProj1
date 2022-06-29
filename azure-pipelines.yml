@@ -1,3 +1,4 @@
+######################################################################################	YAML ORIGINAL
 # ASP.NET Core (.NET Framework)
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
@@ -28,28 +29,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: gitversion/setup@0
-  inputs:
-    versionSpec: '5.3.x'
-
-#- task: gitversion/execute@0
-#  inputs:
-#    useConfigFile: true
-#    configFilePath: 'GitVersion.yml'
-
-- task: gitversion/execute@0
-  inputs:
-    useConfigFile: true
-    configFilePath: 'GitVersion.yml'
-    updateAssemblyInfo: true
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      $buildNumber=$Env:BUILD:NUMBER
-      $buildNumber = $buildNumber.replace("+","-")
-      Write-host ("##" + "vso[build.updatebuildnumber]$buildNumber")
-
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -59,5 +38,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-    tags:
-      $(build.BuildNumber)
