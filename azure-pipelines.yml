@@ -15,16 +15,13 @@ variables:
   # semanticVersion counter is automatically incremented by one in each execution of pipeline
   # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
   semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
-  projectName: 'MyProjectName'
+  projectName: 'WebAppProj1'
   buildConfiguration: 'Release'
-
 steps:
 - task: NuGetToolInstaller@1
-
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
