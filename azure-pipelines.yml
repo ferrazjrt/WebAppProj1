@@ -37,3 +37,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+- task: versioncounter@2
+  inputs:
+    VersionVariable: '1.0.0'
+    UpdateMinorVersion: true
+    MaxValuePatchVersion: '4'
+    OnlyUpdateMinor: true
+    buildapiversion: '6.0'
