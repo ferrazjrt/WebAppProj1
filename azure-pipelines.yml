@@ -28,6 +28,15 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: gitversion/setup@0
+  inputs:
+    versionSpec: '5.x'
+
+- task: gitversion/execute@0
+  inputs:
+    useConfigFile: : true
+    configFilePath: 'GitVersion.yml'
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -37,10 +46,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: versioncounter@2
-  inputs:
-    VersionVariable: '1.0.0'
-    UpdateMinorVersion: true
-    MaxValuePatchVersion: '4'
-    OnlyUpdateMinor: true
-    buildapiversion: '6.0'
