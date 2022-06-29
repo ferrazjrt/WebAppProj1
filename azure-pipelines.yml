@@ -42,7 +42,6 @@ steps:
     useConfigFile: true
     configFilePath: 'GitVersion.yml'
     updateAssemblyInfo: true
-    updateAssemblyInfoFilename: '**/AssemblyInfo.cs'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
