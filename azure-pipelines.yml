@@ -4,10 +4,19 @@
 trigger:
 - main
 
-name: $(majorMinorVersion).$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
-
 pool:
   vmImage: 'windows-latest'
+
+variables:
+# pipeline variables
+  majorMinorVersion: 1.0
+  # semanticVersion counter is automatically incremented by one in each execution of pipeline
+  # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
+  semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
+  projectName: 'WebAppProj1'
+  buildConfiguration: 'Release'
+
+name: $(majorMinorVersion).$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
 
 steps:
 - task: NuGetToolInstaller@1
@@ -20,16 +29,6 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-variables:
-# pipeline variables
-  majorMinorVersion: 1.0
-  # semanticVersion counter is automatically incremented by one in each execution of pipeline
-  # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
-  semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
-  projectName: 'WebAppProj1'
-  buildConfiguration: 'Release'
-
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
