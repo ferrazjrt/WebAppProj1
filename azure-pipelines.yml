@@ -7,10 +7,9 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-name: $(majorMinorVersion).$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
+name: $(majorMinorVersion).$(semanticVersion) # $(rev:r)
 
 variables:
-# pipeline variables
   majorMinorVersion: 1.0
   # semanticVersion counter is automatically incremented by one in each execution of pipeline
   # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
@@ -40,4 +39,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-
